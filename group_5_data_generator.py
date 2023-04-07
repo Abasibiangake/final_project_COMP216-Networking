@@ -17,7 +17,7 @@ class Util:
         self.start_id += 1
         x = random.random()
         new_temp = round(10*x+15,2)
-        if self.start_id>0: self.diff_temp= round(new_temp - self.temp,2)
+        if self.start_id>1: self.diff_temp= round(new_temp - self.temp,2)
         self.temp = new_temp
         humid = round(0.4+x/10,2)
         aqi = round(25+x*10,0)
