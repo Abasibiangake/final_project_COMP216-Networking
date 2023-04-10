@@ -1,3 +1,4 @@
+import numpy as np
 import paho.mqtt.client as mqtt
 import json
 import tkinter as tk
@@ -6,6 +7,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import MinuteLocator, DateFormatter
 import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 
 class SubscriberGUI:
     def __init__(self, broker_address='localhost', topic='COMP216', qos=0):
@@ -42,21 +44,27 @@ class SubscriberGUI:
         self.y_data.append(data['temperature'])
         self.diff_data.append(data['diff_temperature'])
         self.ax1.clear()
-        self.ax1.plot(self.x_data, self.y_data)
-        self.ax1.set_title('Temperature')
-        self.ax1.set_xlabel('Time')
+        start = len(self.x_data)//24*24
+        stop= len(self.x_data)
+        self.ax1.plot(self.x_data[start:stop], self.y_data[start:stop])
+        self.ax1.set_title('Temperature of the Day of the Week: '+ data['id'])
+        self.ax1.set_xlabel('Time in Hrs')
         self.ax1.set_ylabel('Temperature')
         self.ax1.set_ylim([10, 26])
+        self.ax1.set_xticks(np.arange(min(self.x_data), 24, 1))
+        self.canvas.draw()
+
         # self.ax1.xaxis.set_major_locator(mdates.MinuteLocator(interval=0.01))
         # self.ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
         # self.ax1.xaxis.set_major_locator(MinuteLocator(interval=1))
         # self.ax1.xaxis.set_major_formatter(DateFormatter('%H:%M:%S'))
         self.ax2.clear()
-        self.ax2.plot(self.x_data, self.diff_data)
+        self.ax2.plot(self.x_data[start:stop], self.diff_data[start:stop])
         self.ax2.set_title('Temperature Difference')
-        self.ax2.set_xlabel('Time')
+        self.ax2.set_xlabel('Time in Hrs')
         self.ax2.set_ylabel('Temperature Difference')
         self.fig.subplots_adjust(hspace=0.5)
+        self.ax2.set_xticks(np.arange(min(self.x_data), max(self.x_data)+1, 1))
         self.canvas.draw()
 
     def run(self):
