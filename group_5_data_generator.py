@@ -21,7 +21,8 @@ class Util:
 
     def get_json_data(self):
         self.id += 1
-        new_temp = round(random.uniform(self.temp - 1, self.temp + 1), 2)
+        # new_temp = round(random.uniform(self.temp - 1, self.temp + 1), 2)
+        new_temp = round(15+10*random.random(), 2)
         diff_temp = round(new_temp - self.temp, 2)
         self.temp = new_temp
         self.humid = round(random.uniform(self.humid - 5, self.humid + 5), 2)

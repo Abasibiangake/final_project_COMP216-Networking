@@ -64,6 +64,7 @@ class SubscriberGUI:
         self.ax2.set_xlabel('Time in Hrs')
         self.ax2.set_ylabel('Temperature Difference')
         self.fig.subplots_adjust(hspace=0.5)
+        self.ax2.set_ylim([-10, 10])
         self.ax2.set_xticks(np.arange(min(self.x_data), max(self.x_data)+1, 1))
         self.canvas.draw()
 
